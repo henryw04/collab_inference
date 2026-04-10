@@ -73,4 +73,3 @@ python worker.py
   pip install torch --index-url https://download.pytorch.org/whl/cu118
   ```
 - **Exit environment later:** Simply run `deactivate` in your terminal.
-```
