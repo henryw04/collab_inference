@@ -20,34 +20,39 @@ os.environ["HF_HOME"] = str(HF_CACHE_DIR)
 MODEL_NAME = "openlm-research/open_llama_3b"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
+
 class State:
-    def __init__(self, addr, prompt,
-                max_new_tokens = MAX_NEW_TOKENS, 
-                temperature = TEMPERATURE,
-                top_p = TOP_P, 
-                repetition_penalty = REPETITION_PENALTY, 
-                ):
+    def __init__(
+        self,
+        addr,
+        prompt,
+        max_new_tokens=MAX_NEW_TOKENS,
+        temperature=TEMPERATURE,
+        top_p=TOP_P,
+        repetition_penalty=REPETITION_PENALTY,
+    ):
         self.addr = addr
         self.prompt = prompt
         self.remaining_tokens = max_new_tokens
         self.temperature = temperature
         self.repetition_penalty = repetition_penalty
         self.top_p = top_p
-        
+
         self.input_ids = None
         self.hidden_states = None
-    
+
     def __str__(self):
         return f"input_ids = {self.input_ids}, hidden_states = {self.hidden_states}"
 
-    def set_hidden_states(self,obj):
+    def set_hidden_states(self, obj):
         self.hidden_states = obj
 
-    def set_input_ids(self,obj):
+    def set_input_ids(self, obj):
         self.input_ids = obj
 
     def consume_token(self):
-        self.remaining_tokens-=1
+        self.remaining_tokens -= 1
+
 
 def set_seed(seed: int = 42) -> None:
     random.seed(seed)

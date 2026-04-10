@@ -12,7 +12,7 @@ import numpy as np
 
 import torch
 from transformers import LlamaForCausalLM, LlamaTokenizer
-    
+
 MODEL_PATH = "openlm-research/open_llama_3b"
 
 
@@ -34,8 +34,6 @@ def main() -> None:
         torch_dtype=torch.float32,
         use_safetensors=True,
     )
-
-
 
     # test prompts
     prompts = [
@@ -66,13 +64,12 @@ def main() -> None:
                 input_ids,
                 attention_mask=attention_mask,
                 max_new_tokens=max_new_tokens,
-                repetition_penalty = repetition_penalty,
+                repetition_penalty=repetition_penalty,
                 pad_token_id=tokenizer.pad_token_id,
                 eos_token_id=tokenizer.eos_token_id,
                 do_sample=True,
                 temperature=temperature,
                 top_p=top_p,
-                
             )
         end = time.time()
 
@@ -80,7 +77,9 @@ def main() -> None:
         generated_tokens = output_ids.shape[1] - input_ids.shape[1]
 
         # Decode only the new tokens
-        text = tokenizer.decode(output_ids[0][input_ids.shape[1]:], skip_special_tokens=True)
+        text = tokenizer.decode(
+            output_ids[0][input_ids.shape[1] :], skip_special_tokens=True
+        )
 
         with open("baseline_result.txt", "a", encoding="utf-8") as f:
             print(file=f)
@@ -89,9 +88,11 @@ def main() -> None:
             print("--- Output ---", file=f)
             print(text, file=f)
             print("=== Stat ===", file=f)
-            print(f"Time={elapsed:.3f}s, Generated_tokens={generated_tokens}, Avg Tokens/s={generated_tokens/elapsed:.2f}", file=f)
+            print(
+                f"Time={elapsed:.3f}s, Generated_tokens={generated_tokens}, Avg Tokens/s={generated_tokens/elapsed:.2f}",
+                file=f,
+            )
             print(file=f)
-
 
 
 if __name__ == "__main__":
