@@ -54,7 +54,7 @@ Once activated, upgrade `pip` and install all required packages:
 
 ```bash
 python -m pip install --upgrade pip
-pip install -r req.txt
+pip install "fastapi[standard]" pyzmq "transformers[torch]"
 ```
 
 ## 🚀 Ready to Run
